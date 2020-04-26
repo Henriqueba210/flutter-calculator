@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:calculator/memory.dart';
 import 'package:flutter/material.dart';
+
+import 'memory.dart';
 
 class Calculator extends StatefulWidget {
   @override
@@ -8,50 +9,63 @@ class Calculator extends StatefulWidget {
 }
 
 class _CalculatorState extends State<Calculator> {
-  final memory = Memory();
+  final _memory = Memory();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculadora'),
         backgroundColor: Colors.black,
+        title: Text('Calculadora'),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           _buildDisplay(),
-          Divider(
-            height: 0.2,
-          ),
+          Divider(height: 0.1),
           _buildKeyboard(),
         ],
       ),
     );
   }
 
-  _buildDisplay() {
+  Widget _buildDisplay() {
     return Expanded(
+      flex: 1,
       child: Container(
         color: Colors.black,
-        child: AutoSizeText(
-          memory.result,
-          maxLines: 1,
-          minFontSize: 20,
-          maxFontSize: 80,
-          textAlign: TextAlign.end,
-          style: TextStyle(fontSize: 80, color: Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: AutoSizeText(
+                _memory.result,
+                minFontSize: 20.0,
+                maxFontSize: 80.0,
+                maxLines: 1,
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  fontFamily: 'Calculator',
+                  fontWeight: FontWeight.w200,
+                  decoration: TextDecoration.none,
+                  fontSize: 80.0,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  _buildKeyboardButton(String label,
-      {int flex = 1, Color textColor = Colors.white}) {
+  Widget _buildKeyboardButton(String label,
+      {int flex = 1, Color textColor = Colors.white, Color backgroundColor = Colors.black}) {
     return Expanded(
       flex: flex,
       child: RaisedButton(
-        color: Colors.black,
+        color: backgroundColor,
         textColor: textColor,
         child: Text(
           label,
@@ -59,31 +73,33 @@ class _CalculatorState extends State<Calculator> {
         ),
         onPressed: () {
           setState(() {
-            memory.applyCommand(label);
+            _memory.applyCommand(label);
           });
         },
       ),
     );
   }
 
-  _buildKeyboard() {
+  Widget _buildKeyboard() {
     return Container(
-      height: 400,
       color: Colors.black,
+      height: 400.0,
       child: Column(
         children: <Widget>[
           Expanded(
+            flex: 1,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 _buildKeyboardButton('AC', textColor: Colors.deepOrange),
                 _buildKeyboardButton('DEL', textColor: Colors.deepOrange),
                 _buildKeyboardButton('%', textColor: Colors.deepOrange),
-                _buildKeyboardButton('/', textColor: Colors.deepOrange),
+                _buildKeyboardButton('÷', textColor: Colors.deepOrange),
               ],
             ),
           ),
           Expanded(
+            flex: 1,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -95,6 +111,7 @@ class _CalculatorState extends State<Calculator> {
             ),
           ),
           Expanded(
+            flex: 1,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -106,6 +123,7 @@ class _CalculatorState extends State<Calculator> {
             ),
           ),
           Expanded(
+            flex: 1,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -117,6 +135,7 @@ class _CalculatorState extends State<Calculator> {
             ),
           ),
           Expanded(
+            flex: 1,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[

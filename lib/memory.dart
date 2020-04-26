@@ -1,49 +1,83 @@
 class Memory {
-  String result = '0';
-  List<double> _buffer = [0.0, 0.0];
-  int _bufferIndex = 0;
-  bool _operationUsed = false;
+  static const operations = const ['%', '/', '+', '-', '*', '='];
   String _operation;
+  bool _usedOperation = false;
+  final _buffer = [0.0, 0.0];
+  int _bufferIndex = 0;
 
-  static const OPERATIONS = "+-x%=";
+  String result = '0';
 
-  void applyCommand(String label) {
-    if (label == 'AC') {
-      _clear();
-    } else if (label == 'DEL') {
-      _deleteEndDigit();
-    } else if (OPERATIONS.contains(label)) {
-      _setOperation(label);
-    } else {
-      _addDigit(label);
-    }
+  Memory() {
+    _clear();
   }
 
-  _clear() {
+  void _clear() {
     result = '0';
-    _operationUsed = false;
-    _buffer.setAll(0, [0.0,0.0]);
+    _buffer.setAll(0, [0.0, 0.0]);
     _bufferIndex = 0;
     _operation = null;
+    _usedOperation = false;
   }
 
-  void _addDigit(String digit) {
-    if (result == '0' && digit != '.') {
-      result = '';
+  void applyCommand(String command) {
+    if (command == 'AC') {
+      _clear();
+    } else if (command == 'DEL') {
+      _deleteEndDigit();
+    } else if (operations.contains(command)) {
+      _setOperation(command);
+    } else {
+      _addDigit(command);
     }
-
-    if(digit == '.' && result.contains('.')){
-      digit = '';
-    }
-
-    result += digit;
   }
 
   void _deleteEndDigit() {
-    result = result.length == 1 ? '0' : result.substring(0, result.length - 1);
+    result = result.length > 1 ? result.substring(0, result.length - 1) : '0';
+  }
+
+  void _addDigit(String digit) {
+    if (_usedOperation) result = '0';
+
+    if (result.contains('.') && digit == '.') digit = '';
+    if (result == '0' && digit != '.') result = '';
+
+    result += digit;
+
+    _buffer[_bufferIndex] = double.tryParse(result);
+    _usedOperation = false;
   }
 
   void _setOperation(String operation) {
+    if (_usedOperation && operation == _operation) return;
 
+    if (_bufferIndex == 0) {
+      _bufferIndex = 1;
+    } else {
+      _buffer[0] = _calculate();
+    }
+
+    if (operation != '=') _operation = operation;
+
+    result = _buffer[0].toString();
+    result = result.endsWith('.0') ? result.split('.')[0] : result;
+
+    _usedOperation = true;
+  }
+
+  double _calculate() {
+    switch (_operation) {
+      case '%':
+        return _buffer[0] % _buffer[1];
+      case '÷':
+        return _buffer[0] / _buffer[1];
+      case 'x':
+        return _buffer[0] * _buffer[1];
+      case '+':
+        return _buffer[0] + _buffer[1];
+      case '-':
+        return _buffer[0] - _buffer[1];
+      default:
+        return 0.0;
+    }
   }
 }
