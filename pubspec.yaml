@@ -21,6 +21,7 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
   auto_size_text: ^2.1.0
+  splashscreen:
 
 dev_dependencies:
   flutter_test:
@@ -44,6 +45,9 @@ flutter:
     - family: Calculator     
       fonts:
         - asset: assets/fonts/Calculator.ttf
+
+  assets:
+    - assets/icons/icon.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
