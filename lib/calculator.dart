@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 import 'memory.dart';
 
@@ -17,6 +18,22 @@ class _CalculatorState extends State<Calculator> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('Calculadora'),
+        actions: <Widget>[
+          new IconButton(
+            icon: new Icon(Icons.share),
+            onPressed: () {
+              Share.share('Veja esse aplicativo de calculadora no Github: https://github.com/henriquealmeida39/flutter-calculator',subject: 'Veja meu Aplicativo!');
+            },
+          ),
+        ],
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        textTheme: TextTheme(
+            title: TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        )),
       ),
       body: Column(
         children: <Widget>[
@@ -61,7 +78,9 @@ class _CalculatorState extends State<Calculator> {
   }
 
   Widget _buildKeyboardButton(String label,
-      {int flex = 1, Color textColor = Colors.white, Color backgroundColor = Colors.black}) {
+      {int flex = 1,
+      Color textColor = Colors.white,
+      Color backgroundColor = Colors.black}) {
     return Expanded(
       flex: flex,
       child: RaisedButton(
