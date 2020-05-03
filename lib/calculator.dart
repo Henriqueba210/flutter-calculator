@@ -22,7 +22,9 @@ class _CalculatorState extends State<Calculator> {
           new IconButton(
             icon: new Icon(Icons.share),
             onPressed: () {
-              Share.share('Veja esse aplicativo de calculadora no Github: https://github.com/henriquealmeida39/flutter-calculator',subject: 'Veja meu Aplicativo!');
+              Share.share(
+                  'Veja esse aplicativo de calculadora no Github: https://github.com/henriquealmeida39/flutter-calculator',
+                  subject: 'Veja meu Aplicativo!');
             },
           ),
         ],
@@ -54,22 +56,63 @@ class _CalculatorState extends State<Calculator> {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AutoSizeText(
-                _memory.result,
-                minFontSize: 20.0,
-                maxFontSize: 80.0,
-                maxLines: 1,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  fontFamily: 'Calculator',
-                  fontWeight: FontWeight.w200,
-                  decoration: TextDecoration.none,
-                  fontSize: 80.0,
-                  color: Colors.white,
+            Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 8.0,
+                  bottom: 70.0,
+                  left: 8.0,
+                  right: 8.0,
+                  child: AutoSizeText(
+                    _memory.showPreviousOperations,
+                    minFontSize: 20.0,
+                    maxFontSize: 40.0,
+                    maxLines: 1,
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontFamily: 'Calculator',
+                      fontWeight: FontWeight.w200,
+                      decoration: TextDecoration.none,
+                      fontSize: 60.0,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
+                AutoSizeText(
+                  "",
+                  minFontSize: 20.0,
+                  maxFontSize: 200.0,
+                  maxLines: 1,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                    fontFamily: 'Calculator',
+                    fontWeight: FontWeight.w800,
+                    decoration: TextDecoration.none,
+                    fontSize: 138,
+                    color: Colors.white,
+                  ),
+                ),
+                Positioned(
+                  top: 60,
+                  bottom: 8.0,
+                  left: 8.0,
+                  right: 8.0,
+                  child: AutoSizeText(
+                    _memory.result,
+                    minFontSize: 20.0,
+                    maxFontSize: 80.0,
+                    maxLines: 1,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontFamily: 'Calculator',
+                      fontWeight: FontWeight.w200,
+                      decoration: TextDecoration.none,
+                      fontSize: 80.0,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

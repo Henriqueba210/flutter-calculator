@@ -1,11 +1,12 @@
 class Memory {
-  static const operations = const ['%', '/', '+', '-', '*', '='];
+  static const operations = const ['%', '÷', '+', '-', 'x', '='];
   String _operation;
   bool _usedOperation = false;
   final _buffer = [0.0, 0.0];
   int _bufferIndex = 0;
 
   String result = '0';
+  String showPreviousOperations = "";
 
   Memory() {
     _clear();
@@ -17,6 +18,7 @@ class Memory {
     _bufferIndex = 0;
     _operation = null;
     _usedOperation = false;
+    showPreviousOperations = "";
   }
 
   void applyCommand(String command) {
@@ -65,6 +67,14 @@ class Memory {
   }
 
   double _calculate() {
+    if(showPreviousOperations.length > 0) {
+      showPreviousOperations += " $_operation ${_buffer[0].toStringAsFixed(_buffer[0].truncateToDouble() == _buffer[0] ? 0 : 1)}";
+    } else {
+      showPreviousOperations += "${_buffer[0].toStringAsFixed(_buffer[0].truncateToDouble() == _buffer[0] ? 0 : 1)} $_operation ${_buffer[1].toStringAsFixed(_buffer[1].truncateToDouble() == _buffer[1] ? 0 : 1)}";
+    }
+
+    _bufferIndex = 0;
+    
     switch (_operation) {
       case '%':
         return _buffer[0] % _buffer[1];
